@@ -1,5 +1,5 @@
 {
-  "name": "rubik.js",
+  "name": "deflake",
   "version": "0.0.1",
   "description": "A tool for finding and debugging flaky Mocha tests",
   "main": "index.js",
