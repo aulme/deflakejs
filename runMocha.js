@@ -1,4 +1,13 @@
+'use strict';
+
 const Mocha = require('mocha');
+
+const emptyRequireCache = () => {
+  const requireKeys = Object.keys(require.cache);
+  requireKeys.forEach(key => {
+    delete require.cache[key];
+  });
+};
 
 module.exports = (files) => {
   return new Promise((res, rej) => {
@@ -47,11 +56,18 @@ module.exports = (files) => {
           rej(e);
         }
       });
-
     }
 
-    const mocha = new Mocha().reporter(reporter);
-    files.forEach(file => mocha.addFile(file));
+    emptyRequireCache();
+
+    const mocha = new Mocha({
+      reporter,
+      bail: false
+    });
+
+    files.forEach(file => {
+      mocha.addFile(file);
+    });
     mocha.run();
   });
 }
